@@ -1,6 +1,6 @@
 const router = require("express").Router();
 var passport = require('passport');
-var userController = require('../../controllers/usersController');
+var userController = require('../controllers/usersController');
 
 // Matches with /api/auth/test
 router.get("/test", (req, res) => {

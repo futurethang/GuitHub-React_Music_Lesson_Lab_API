@@ -1,6 +1,12 @@
 const router = require("express").Router();
 const passport = require("passport");
 
+
+// set up home view
+// router.use("/", (req, res) => {
+//   res.send("AUTH ROUTES")
+// });
+
 // auth login
 router.get("/login", (req, res) => {
   res.render("login", { user: req.user });

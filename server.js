@@ -1,7 +1,8 @@
 const express = require("express");
-const authRoutes = require("./routes/api/auth-routes");
+const authRoutes = require("./routes/auth-routes");
 const profileRoutes = require("./routes/profile-routes");
 const passportSetup = require("./config/passport-setup"); // required for functions in passport-setup to initialize before use in this file
+const routes = require("./routes");
 const mongoose = require("mongoose");
 const keys = require("./config/keys");
 const cookieSession = require('cookie-session');
@@ -22,6 +23,9 @@ if (process.env.NODE_ENV === "production") {
 
 ///////////////
 
+// set up view engine
+app.set("view engine", "ejs");
+
 app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000,
   keys: [keys.session.cookieKey]
@@ -37,13 +41,9 @@ mongoose.connect(keys.mongoDB.dbURI, () => {
 });
 
 // set up routes
-app.use("/auth", authRoutes);
-app.use("/profile", profileRoutes); /// needs to be replaced once REACT is working
-
-// set up home view
-app.get("/", (req, res) => {
-  res.render("home", { user: req.user});
-});
+app.use(routes);
+// app.use("/api/auth", authRoutes);
+// app.use("/api/profile", profileRoutes); /// needs to be replaced once REACT is working
 
 ///////////////
 
