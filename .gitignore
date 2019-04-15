@@ -1,5 +1,6 @@
-# /config/keys.js
+/config/keys.js
 /node_modules
+.env
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
