@@ -9,7 +9,7 @@ const cookieSession = require('cookie-session');
 const passport = require('passport')
 const morgan = require('morgan')
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8081;
 require('dotenv').config()
 
 // Define middleware
