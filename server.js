@@ -1,18 +1,19 @@
 const express = require("express");
-require('dotenv').config()
+require("dotenv").config();
 const authRoutes = require("./routes/auth-routes");
 const profileRoutes = require("./routes/profile-routes");
 const passportSetup = require("./config/passport-setup"); // required for functions in passport-setup to initialize before use in this file
 const routes = require("./routes");
 const mongoose = require("mongoose");
-const cookieSession = require('cookie-session');
-const passport = require('passport')
-const morgan = require('morgan')
+const cookieSession = require("cookie-session");
+const passport = require("passport");
+const morgan = require("morgan");
 const app = express();
+const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 3001;
 
 // Define middleware
-app.use(morgan('dev'))
+app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Serve up static assets (usually on heroku)
@@ -25,15 +26,22 @@ if (process.env.NODE_ENV === "production") {
 // set up view engine
 app.set("view engine", "ejs");
 
-app.use(cookieSession({
-  maxAge: 24 * 60 * 60 * 1000,
-  keys: [process.env.COOKIEKEY]
-}))
+app.use(
+  cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [process.env.COOKIEKEY]
+  })
+);
+
+app.use(bodyParser.json())
 
 // enable CORS
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
 });
 
@@ -43,7 +51,7 @@ app.use(passport.session());
 
 // connect to mongoDB
 mongoose.connect(process.env.DBURI, () => {
-  console.log('connected to mongodb')
+  console.log("connected to mongodb");
 });
 
 // set up routes
